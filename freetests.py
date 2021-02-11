@@ -212,7 +212,7 @@ class TestHTTPClient(unittest.TestCase):
         req = http.POST( url )
         self.assertTrue(req != None, "None Returned!")
         self.assertTrue(req.code == 200,"Code is %s but I wanted a 200 OK" % req.code)
-
+    """
         
         
     # consider disabling this test until everything else works
@@ -242,7 +242,7 @@ class TestHTTPClient(unittest.TestCase):
                 self.assertTrue(req.body.find("DOCTYPE")>=0 or 
                                 req.body.find("<body")>=0 , 
                                 "%s Data: [%s] " % (url,req.body))
-    
+    """
     def testPOST(self):
         '''Test HTTP POST with an echo server'''
         MyHTTPHandler.post = echo_post

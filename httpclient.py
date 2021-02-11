@@ -129,9 +129,10 @@ class HTTPClient(object):
         body1 = index_data[index_start:index_end:]
         print(body1)
         """
-        body = data 
+        body = data+"\r\nHost: "+url
         print("BOOOODDDY")
         print(body)
+        print("BODDY END")
 
         
 
