@@ -96,14 +96,15 @@ class HTTPClient(object):
         Referer: '''+url+'''
         
         '''
-        print(request1)
 
         request2 = '''GET / HTTP/1.1
         Host: '''+url+'''
         
         '''
 
-        request3 = ("GET / HTTP/1.1\r\nHost: "+url+"\r\n\r\n")
+        request3 = ("GET / HTTP/1.1\r\nHost: "+url+"\r\nAccept: */*\r\nConnection: close\r\n\r\n")
+
+        print(request3)
 
         self.socket.sendall(request3.encode())
         print("RCVD")
@@ -128,7 +129,7 @@ class HTTPClient(object):
         body1 = index_data[index_start:index_end:]
         print(body1)
         """
-        body = data + url
+        body = data 
         print("BOOOODDDY")
         print(body)
 
