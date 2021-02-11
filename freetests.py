@@ -52,7 +52,6 @@ class MyHTTPHandler(http.server.BaseHTTPRequestHandler):
     def do_GET(self):
         try:
             print("HERE")
-            print(self.Host)
             print("GET %s\n" % self.path)
             if (self.get == None):
                 return None
@@ -157,7 +156,7 @@ class TestHTTPClient(unittest.TestCase):
             print("run_server: Thread died")
 
 
-    """
+    
     def test404GET(self):
         '''Test against 404 errors'''
         MyHTTPHandler.get = nothing_available
@@ -165,7 +164,7 @@ class TestHTTPClient(unittest.TestCase):
         req = http.GET("http://%s:%d/49872398432" % (BASEHOST,BASEPORT) )
         self.assertTrue(req != None, "None Returned!")
         self.assertTrue(req.code == 404)
-
+    """
     def test404POST(self):
         '''Test against 404 errors'''
         MyHTTPHandler.post = nothing_available
@@ -174,6 +173,7 @@ class TestHTTPClient(unittest.TestCase):
         self.assertTrue(req != None, "None Returned!")
         self.assertTrue(req.code == 404)
     """
+    
     def testGET(self):
         '''Test HTTP GET'''
         MyHTTPHandler.get = echo_path_get
@@ -190,7 +190,7 @@ class TestHTTPClient(unittest.TestCase):
         print("HEEEEEEEERe")
         print(req.body.find(path))
         self.assertTrue(req.body.find(path)>=0, "Data: [%s] " % req.body)
-    """
+    
     def testGETHeaders(self):
         '''Test HTTP GET Headers'''
         MyHTTPHandler.get = header_check
@@ -201,7 +201,7 @@ class TestHTTPClient(unittest.TestCase):
         req = http.GET( url )
         self.assertTrue(req != None, "None Returned!")
         self.assertTrue(req.code == 200)
-
+    """
     def testPOSTHeaders(self):
         '''Test HTTP POST Headers'''
         MyHTTPHandler.post = post_header_check

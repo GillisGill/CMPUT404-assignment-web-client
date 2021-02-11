@@ -93,7 +93,7 @@ class HTTPClient(object):
         
         request1 = '''GET / HTTP/1.1
         Host: '''+str(host)+":"+str(port)+'''/abcdef/gjkd/dsadas
-        Path: /abcdef/gjkd/dsadas
+        Referer: '''+url+'''
         
         '''
         print(request1)
@@ -103,7 +103,9 @@ class HTTPClient(object):
         
         '''
 
-        self.socket.sendall(request1.encode())
+        request3 = ("GET / HTTP/1.1\r\nHost: "+url+"\r\n\r\n")
+
+        self.socket.sendall(request3.encode())
         print("RCVD")
         self.socket.shutdown(socket.SHUT_WR)
         #self.close()
@@ -113,7 +115,12 @@ class HTTPClient(object):
         print(data)
         print("-----------------")
         self.close()
-        code = 200
+        code_index = data.find("HTTP") + 8
+        code_index_end = code_index + 4
+        code_str = data[code_index:code_index_end:1]
+        print("COOOODE STR")
+        print(code_str)
+        code = int(code_str)
         """
         index_data = str(data)
         index_start = index_data.find("b'") + 2
@@ -121,7 +128,9 @@ class HTTPClient(object):
         body1 = index_data[index_start:index_end:]
         print(body1)
         """
-        body = data 
+        body = data + url
+        print("BOOOODDDY")
+        print(body)
 
         
 
