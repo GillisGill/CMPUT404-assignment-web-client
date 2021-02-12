@@ -23,7 +23,7 @@ import socket
 import re
 # you may use urllib to encode data appropriately
 import urllib.parse
-import json
+import time
 #import requests
 #import urllib.request
 
@@ -104,6 +104,7 @@ class HTTPClient(object):
 
         self.socket.sendall(request6.encode())
         print("RCVD")
+        time.sleep(.100)
         self.socket.shutdown(socket.SHUT_WR)
         #self.close()
         print("-------------------")
@@ -111,6 +112,7 @@ class HTTPClient(object):
         print(type(data))
         print(data)
         print("-----------------")
+        time.sleep(.100)
         self.close()
         code_index = data.find("HTTP") + 8
         code_index_end = code_index + 4
@@ -174,7 +176,7 @@ class HTTPClient(object):
         enargs = "{}"
         length_b = str(len(enargs))
         if (args != None):
-            enargs = urllib.parse.urlencode(args)
+            enargs = str(urllib.parse.urlencode(args))
             print(enargs)
             length_b = str(len(enargs))
             print(length_b)
@@ -184,6 +186,7 @@ class HTTPClient(object):
 
         self.socket.sendall(request6.encode())
         print("RCVD")
+        time.sleep(.100)
         self.socket.shutdown(socket.SHUT_WR)
         #self.close()
         #print("-------------------")
@@ -192,6 +195,7 @@ class HTTPClient(object):
         #print(type(data))
         #print(data)
         #print("-----------------")
+        time.sleep(.100)
         self.close()
         code_index = data.find("HTTP") + 8
         code_index_end = code_index + 4
