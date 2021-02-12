@@ -108,7 +108,6 @@ class HTTPClient(object):
         code_str = data[code_index:code_index_end:1]
         code = int(code_str)
 
-        #body = data+"\r\nHost: "+url
         print(data)
         body = data
         
