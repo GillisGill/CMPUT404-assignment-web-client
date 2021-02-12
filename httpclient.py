@@ -32,7 +32,6 @@ def help():
 
 class HTTPResponse(object):
     def __init__(self, code=200, body=""):
-        #print(type(body))
         self.code = code
         self.body = body
 
@@ -79,55 +78,66 @@ class HTTPClient(object):
 
     def GET(self, url, args=None):
         body = ""
+        # Get host, port, and path
         (host, port,path) = self.get_host_port(url)
         if (port == None):
             port = 80
 
+        # Connect
         self.connect(host,port)
         
         if (path == ""):
             path = "/"
         
+        # Form GET request
         request6 = ("GET "+path+" HTTP/1.1\r\nHost: "+host+"\r\nAccept: */*\r\nConnection: close\r\n\r\n")
 
         self.socket.sendall(request6.encode())
 
         time.sleep(.100)
         self.socket.shutdown(socket.SHUT_WR)
-
+        # Get response
         data = self.socket.recv(4096).decode()
 
         time.sleep(.100)
         self.close()
+
+        # set code and body
         code_index = data.find("HTTP") + 8
         code_index_end = code_index + 4
         code_str = data[code_index:code_index_end:1]
         code = int(code_str)
 
-        body = data+"\r\nHost: "+url
+        #body = data+"\r\nHost: "+url
+        print(data)
+        body = data
         
         return HTTPResponse(code, body)
 
     def POST(self, url, args=None):
         body = ""
+        # Get host, port, and path
         (host, port,path) = self.get_host_port(url)
         if (port == None):
             port = 80
 
+        # Connect
         self.connect(host,port)
         
         if (path == ""):
             path = "/"
         
+        # Parse args
         enargs = "{}"
         length_b = str(len(enargs))
         if (args != None):
             enargs = str(urllib.parse.urlencode(args))
             length_b = str(len(enargs))
 
+        # Form request
         request6 = "POST "+path+" HTTP/1.1\r\nHost: "+host+"\r\nContent-Length: "+length_b+"\r\nContent-Type: application/x-wwww-form-urlencoded\r\nAccept: */*\r\nConnection: close\r\n\r\n"+enargs
 
-
+        # Send and receive data
         self.socket.sendall(request6.encode())
         time.sleep(.100)
         self.socket.shutdown(socket.SHUT_WR)
@@ -143,6 +153,7 @@ class HTTPClient(object):
 
         index_body = data.find("{")
         body_str = data[index_body::]
+        print(data)
         body = body_str
         
         return HTTPResponse(code, body)
