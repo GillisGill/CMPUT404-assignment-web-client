@@ -83,92 +83,38 @@ class HTTPClient(object):
         if (port == None):
             port = 80
 
-        #print("TRANSFER")
-        #print(url)
-        #print(host)
-        #print(port)
-        #print("PATTTH")
-        #print(path)
-        #print("PATTTH END")
         self.connect(host,port)
-        #print("CONNECTED")
-        #self.socket.sendall("GET / HTTP/1.1\r\n\r\n")
         
         if (path == ""):
             path = "/"
         
         request6 = ("GET "+path+" HTTP/1.1\r\nHost: "+host+"\r\nAccept: */*\r\nConnection: close\r\n\r\n")
 
-
-        print(request6)
-
         self.socket.sendall(request6.encode())
-        print("RCVD")
+
         time.sleep(.100)
         self.socket.shutdown(socket.SHUT_WR)
-        #self.close()
-        print("-------------------")
+
         data = self.socket.recv(4096).decode()
-        print(type(data))
-        print(data)
-        print("-----------------")
+
         time.sleep(.100)
         self.close()
         code_index = data.find("HTTP") + 8
         code_index_end = code_index + 4
         code_str = data[code_index:code_index_end:1]
-        print("COOOODE STR")
-        print(code_str)
         code = int(code_str)
-        """
-        index_data = str(data)
-        index_start = index_data.find("b'") + 2
-        index_end = len(index_data) - 1
-        body1 = index_data[index_start:index_end:]
-        print(body1)
-        """
+
         body = data+"\r\nHost: "+url
-        print("BOOOODDDY")
-        print(body)
-        print("BODDY END")
-
-        
-
-        #req = urllib.parse.urlparse(url)
-        #print(req)
-        # here
-        """
-        r = requests.get(url, headers=args) 
-        code = r.status_code
-        print("HEEEEEEEEEEEEEEEEEEEEEEEEERE")
-        print(code)
-        #r.json()
-        body = r.content
-        print(type(body))
-        print(r.content)
-        #body = urllib.parse.urlencode(body1)
-        #print(body)
-        """
         
         return HTTPResponse(code, body)
 
     def POST(self, url, args=None):
-                #code = 500
         body = ""
         (host, port,path) = self.get_host_port(url)
         if (port == None):
             port = 80
 
-        #print("TRANSFER")
-        #print(url)
-        #print(host)
-        #print(port)
-        #print("PATTTH")
-        #print(path)
-        #print("PATTTH END")
         self.connect(host,port)
-        #print("CONNECTED")
-        #self.socket.sendall("GET / HTTP/1.1\r\n\r\n")
         
         if (path == ""):
             path = "/"
@@ -177,90 +123,29 @@ class HTTPClient(object):
         length_b = str(len(enargs))
         if (args != None):
             enargs = str(urllib.parse.urlencode(args))
-            print(enargs)
             length_b = str(len(enargs))
-            print(length_b)
+
         request6 = "POST "+path+" HTTP/1.1\r\nHost: "+host+"\r\nContent-Length: "+length_b+"\r\nContent-Type: application/x-wwww-form-urlencoded\r\nAccept: */*\r\nConnection: close\r\n\r\n"+enargs
 
-        #print(request6)
 
         self.socket.sendall(request6.encode())
-        print("RCVD")
         time.sleep(.100)
         self.socket.shutdown(socket.SHUT_WR)
-        #self.close()
-        #print("-------------------")
         data_byte = self.socket.recv(4096)
         data = data_byte.decode()
-        #print(type(data))
-        #print(data)
-        #print("-----------------")
         time.sleep(.100)
         self.close()
+
         code_index = data.find("HTTP") + 8
         code_index_end = code_index + 4
         code_str = data[code_index:code_index_end:1]
-        #print("COOOODE STR")
-        #print(code_str)
         code = int(code_str)
-        """
-        index_data = str(data)
-        index_start = index_data.find("b'") + 2
-        index_end = len(index_data) - 1
-        body1 = index_data[index_start:index_end:]
-        print(body1)
-        """
-        #index_body = data.find("json") + 4
+
         index_body = data.find("{")
         body_str = data[index_body::]
-        #print("+++++++++++++++++++++++")
-        #print(body_str)
-        #print("++++++++++++++++++++++")
-        #body = data+"\r\nHost: "+url
-
-
-        #the_args = the_args.replace("\'", "\"")
         body = body_str
-        #print("BOOOODDDY")
-        #print(body)
-        #print("BODDY END")
-        #print(data_byte)
-
-        
-
-        #req = urllib.parse.urlparse(url)
-        #print(req)
-        # here
-        """
-        r = requests.get(url, headers=args) 
-        code = r.status_code
-        print("HEEEEEEEEEEEEEEEEEEEEEEEEERE")
-        print(code)
-        #r.json()
-        body = r.content
-        print(type(body))
-        print(r.content)
-        #body = urllib.parse.urlencode(body1)
-        #print(body)
-        """
         
         return HTTPResponse(code, body)
-
-        """
-        code = 500
-        body = ""
-        #here
-        
-        r = requests.post(url, data=args) 
-        code = r.status_code
-        print("POOOOOOOOOOOOOOOSSSSSSSTT")
-        print(code)
-        #r.json()
-        body = r.content
-        print(type(body))
-        
-        return HTTPResponse(code, body)
-        """
         
 
     def command(self, url, command="GET", args=None):
